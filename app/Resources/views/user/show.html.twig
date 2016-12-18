@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="center-block user-block">
+		{% if user.avatar %}
+			<img src="{{ asset('uploads/avatars/' ~ user.avatar) }}" alt="user-avatar" height="128" width="128" class="user-avatar" />
+		{% else %}
+			<img src="{{ asset('uploads/avatars/default.png') }}" alt="user-avatar" height="128" width="128" class="user-avatar" />
+		{% endif %}
+		<h2 class="user-name">{{user.username}}</h2>
+		<div class="user-info user-section">
+			<h4 class="user-section-head text-center">Info</h4>
+			<p class="createdAt">User since: {{user.createdAt|date('d.m.y')}}</p>
+			<p class="posts-count">Number of posts: {{user.posts.count}}</p>
+			<p class="comments-count">Number of comments: {{user.comments.count}}</p>
+		</div>
+		<div class="user-about center-block user-section">
+			<h4 class="user-section-head">About</h4>
+			{% if user.about %}
+				<p>{{user.about|nl2br}}</p>
+			{% else %}
+				<p>User does not write something about him yet.</p>
+			{% endif %}
+		</div>
+		{% if display == "posts" %}
+			<a href="{{ path('user_show', {name: user.username, display: "comments"}) }}" class="button-like">Show comments</a>
+		{% elseif display == "comments" %}
+			<a href="{{ path('user_show', {name: user.username, display: "posts"}) }}" class="button-like">Show posts</a>
+		{% endif %}
+		{% if (app.user.username is defined and app.user.username == user.username) or is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('user_edit', {name: user.username}) }}" class="button-like">Edit profile</a>
+		{% endif %}
+	</div>
+		<h3 class="text-center">{{display|capitalize}} of {{user.username}}</h3>
+	{% if display == "posts" %}
+		<div class="posts center-block">
+		{% for post in pagination %}
+			{% include 'templates/post.html.twig' %}
+		{% endfor %}
+		</div>
+	{% elseif display == "comments" %}
+		<div class="comments center-block">
+		{% for comment in pagination %}
+			{% include 'templates/comment.html.twig' %}
+		{% endfor %}
+		</div>
+	{% endif %}
+	<div class="navigation pagination text-center center-block">
+    {{ knp_pagination_render(pagination) }}
+	</div>
+{% endblock %}

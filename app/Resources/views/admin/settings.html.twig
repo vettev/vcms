@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<h2 class="text-center">Page settings</h2>
+	<div class="center-block form-center-block text-center">
+		<form method="post" name="appbundle_settings">
+			{{ form_row(form.title) }}
+			{{ form_row(form.description) }}
+			{{ form_row(form.customMenu) }}
+			{{ form_row(form.footerContent) }}
+			<div class="input-block">
+				<label for="homepage">
+					Set homepage
+				</label>
+				<select name="homepage" id="homepage" class="form-control">
+					<option value="-1" {% if settings.homepage == -1 %}selected{% endif %}>News</option>
+					<optgroup label="Pages">
+						{% for page in pages %}
+							<option value="{{ page.id }}" {% if settings.homepage == page.id %}selected{% endif %}>{{ page.title }}</option>
+						{% endfor %}
+					</optgroup>
+				</select>
+			</div>
+			{{ form_rest(form) }}
+			{{ form_row(form.submit) }}
+		</form>
+	</div>
+{% endblock %}

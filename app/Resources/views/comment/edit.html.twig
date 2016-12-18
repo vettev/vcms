@@ -1,0 +1,5 @@
+<form action="{{ path('comment_edit', {'id': id}) }}" class="comment-edit-form ajax-form" data-target="comment-{{id}}">
+	{{form_row(form.content)}}
+	{{form_row(form.submit, {'label': 'Edit comment'})}}
+	{{form_rest(form)}}
+</form>

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<div class="admin-panel">
+		<a href="{{ path('admin_users') }}" class="button-like">Users managemenet</a>
+		<a href="{{ path('admin_categories') }}" class="button-like">Categories managemenet</a>
+		<a href="{{ path('menu_manage') }}" class="button-like">Menu management</a>
+		<a href="{{ path('admin_settings') }}" class="button-like">Page settings</a>
+		<a href="{{ path('admin_pages') }}" class="button-like">Pages management</a>
+	</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<div class="center-block user-block">
+		{% if user.avatar %}
+			<img src="{{ asset('uploads/avatars/' ~ user.avatar) }}" alt="user-avatar" height="128" width="128" class="user-avatar" />
+		{% else %}
+			<img src="{{ asset('uploads/avatars/default.png') }}" alt="user-avatar" height="128" width="128" class="user-avatar" />
+		{% endif %}
+		<h2 class="user-name">{{user.username}}</h2>
+		<form action="{{ path('user_edit', {'name': user.username}) }}" method="post" enctype="multipart/form-data">
+			{{form_row(form.avatar)}}
+			{{form_row(form.email)}}
+			{{form_row(form.about)}}
+			{% if is_granted('ROLE_ADMIN') %}{{form_row(form.role)}}{% endif %}
+			{{form_row(form.submit)}}
+			{{form_row(form._token)}}
+		</form>
+	</div>
+{% endblock %}

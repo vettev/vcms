@@ -1,0 +1,23 @@
+<div class="comment" id="comment-{{comment.id}}">
+	<div class="meta createdAt">
+		<p class="date"><span class="glyphicon glyphicon-calendar"></span> {{ comment.createdAt|date('d.m.y') }}</p>
+		<p class="time"><span class="glyphicon glyphicon-time"></span> {{ comment.createdAt|date('H:i') }}</p>
+	</div>
+	{% if comment.user.avatar %}
+	<img src="{{ asset('uploads/avatars/' ~ comment.user.avatar) }}" alt="user-avatar" width="64" height="64" class="user-avatar" />
+	{% else %}
+		<img src="{{ asset('uploads/avatars/default.png') }}" alt="user-avatar" width="64" height="64" class="user-avatar" />
+	{% endif %}
+	<h3 class="user-name"><a href="{{ path('user_show', {name: comment.user.username}) }}">{{comment.user.username}}</a></h3>
+	<div class="content">
+		{% block content %}
+		{{ comment.content|nl2br }}
+		{% endblock %}
+	</div>
+	{% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_USER') and app.user.username == comment.user.username) %}
+		<div class="operations">
+			<a href="{{ path('comment_remove', {id: comment.id}) }}" class="operation button-like comment-operation comment-delete ajax" data-target="comment-{{comment.id}}">Delete</a>
+			<a href="{{ path('comment_edit', {id: comment.id}) }}" class="operation button-like comment-operation comment-edit ajax" data-target="comment-{{comment.id}}">Edit</a>
+		</div>
+	{% endif %}
+</div>

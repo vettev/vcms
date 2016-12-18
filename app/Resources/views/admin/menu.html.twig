@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	{% if customMenu is not defined or customMenu == false %}
+		<div class="alert alert-danger">
+			That settings won't make any change - customMenu is disabled
+			<a href="{{ path('admin_settings') }}">Enable it here</a>
+		</div>
+	{% endif %}
+	{% if links %}
+	<table class="table table-stripped">
+		<thead>
+			<tr>
+				<th>Display name</th>
+				<th>Route</th>
+				<th>Link displays for</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for link in links %}
+			<tr>
+				<td>{{ link.name }}</td>
+				<td>
+					{% if link.route %}
+					{{ link.route.route }}
+					{% else %}
+						{{ link.customUrl }}
+					{% endif %}
+				</td>
+				<td>{{ link.displayFor|capitalize }}</td>
+				<td><a href="{{ path('link_remove', {id: link.id}) }}">Delete</a></td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+	<div class="center-block text-center form-center-block">
+		<form method="post" name="appbundle_menu">
+		<h3>Add link</h3>
+		{{ form_row(form.name) }}
+		<div class="input-block">
+			<label for="customRoute">Custom route</label>
+			<input type="checkbox" name="customRoute" id="customRoute" class="form-control" />
+		</div>
+		<div class="input-block" style="display: none;">
+			<label for="customUrl">Custom url</label>
+			<input type="text" name="customUrl" id="customUrl" class="form-control" />
+		</div>
+		{{ form_row(form.route) }}
+		{{ form_row(form.displayFor) }}
+		{{ form_row(form.submit) }}
+		{{ form_rest(form) }}
+		</form>
+	</div>
+{% endblock %}
+{% block javascripts %}
+<script>
+	$(document).ready(function()
+	{
+		$('#customRoute').change(function(){
+				$('#appbundle_menu_route').parent().slideToggle();
+				$('#customUrl').parent().slideToggle();
+		});
+	});
+</script>
+{% endblock %}

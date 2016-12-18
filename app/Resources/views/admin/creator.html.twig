@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pl">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Page creator</title>
+		<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+		<link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+		<style>
+			.errors
+			{
+				margin-top: 1em;
+				border-radius: 0;
+				text-transform: uppercase;
+			}
+		</style>
+	</head>
+	<body>
+		{% if app.request.hasPreviousSession %}
+            {% for flash_msg in app.session.flashbag.get('notice') %}
+                <div class="alert alert-dismissible alert-info">{{flash_msg|raw}}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if app.request.hasPreviousSession %}
+            {% for flash_msg in app.session.flashbag.get('error') %}
+                <div class="alert alert-dismissible alert-danger">{{flash_msg|raw}}</div>
+            {% endfor %}
+        {% endif %}
+		<div class="loader" style="display: none;">
+			<div class="circle-outer">
+				<div class="circle"></div>
+			</div>
+			<span>Please wait...<br/>Generating database...</span>
+		</div>
+		<h2 class="text-center" style="text-transform: uppercase;">Page creator</h2>
+		<div class="center-block form-center-block text-center form-creator">
+			<form action="{{ path('admin_creator') }}" method="post">
+				<div id="database" style="display:none;">
+					<h3>Database settings</h3>
+					<div class="input-block">
+						<label for="dbhost">Database host</label>
+						<input type="text" name="dbhost" id="dbhost" class="form-control" required />
+					</div>
+					<div class="input-block">
+						<label for="dbname">Database name</label>
+						<input type="text" name="dbname" id="dbname" class="form-control" required />
+					</div>
+					<div class="input-block">
+						<label for="dbuser">Database user</label>
+						<input type="text" name="dbuser" id="dbuser" class="form-control" required />
+					</div>
+					<div class="input-block">
+						<label for="dbpass">Database password</label>
+						<input type="password" name="dbpass" id="dbpass" class="form-control"/>
+					</div>
+					<div class="input-submit">
+						<button data-target="#admin" class="change-form">Next</button>
+					</div>
+					<div class="errors"></div>
+				</div>
+				<div id="admin" style="display:none;">
+					<h3>Admin account settings</h3>
+					{{ form_row(formAdmin.username) }}
+					{{ form_row(formAdmin.email) }}
+					{{ form_row(formAdmin.password) }}
+					<div class="input-submit">
+						<button data-target="#database" class="change-form">Previous</button>
+						<button data-target="#page" class="change-form">Next</button>
+					</div>
+					<div class="errors"></div>
+				</div>
+				<div id="page" style="display:none;">
+					<h3>Page settings</h3>
+					<div class="input-block">
+						<label for="title">Page title</label>
+						<input type="text" name="title" id="title" class="form-control" required />
+					</div>
+					<div class="input-block">
+						<label for="description">Page description</label>
+						<input type="text" name="description" id="description" class="form-control" required />
+					</div>
+					<div class="input-submit">
+						<button class="change-form" data-target="#admin">Previous</button>
+						<button type="submit" name="submit">Submit</button>
+					</div>
+					<div class="errors"></div>
+				</div>
+			</form>
+		</div>
+	</body>
+	<script src="{{ asset('js/jquery.min.js') }}"></script>
+	<script src="{{ asset('js/app.js') }}"></script>
+</html>

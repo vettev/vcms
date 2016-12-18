@@ -1,0 +1,42 @@
+{% extends 'form_div_layout.html.twig' %}
+{%- block form_row -%}
+    <div class="input-block">
+    	<div class="input-label">
+        {{- form_label(form) -}}
+        </div>
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+    </div>
+{%- endblock form_row -%}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+    <ul class="errors">
+        {%- for error in errors -%}
+            <li class="error">{{ error.message }}</li>
+        {%- endfor -%}
+    </ul>
+    {%- endif -%}
+{%- endblock form_errors -%}
+
+{%- block button_row -%}
+    <div class="input-submit text-center">
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock button_row -%}
+
+{%- block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}" class="form-control input-field"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock widget_attributes -%}

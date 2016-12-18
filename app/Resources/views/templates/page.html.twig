@@ -1,0 +1,26 @@
+<div class="page">
+	{% block title %}
+			<h3 class="page-title">{{post.title}}</h3>
+	{% endblock %}
+
+	{% if post.image %}
+		<img src="{{ asset('uploads/post_imgs/' ~ post.image) }}" alt="Post image" class="img-responsive" />
+	{% endif %}
+
+	{% block content %}
+		<div class="content">
+			{{ post.content|filter_black_listed()|raw|nl2br }}
+		</div>
+	{% endblock %}
+
+	{% block operations %}
+		{% if full is defined %}
+			<div class="operations">
+				{% if is_granted('ROLE_ADMIN') or (app.user.id is defined and app.user.id == post.user.id) %}
+					<a href="{{ path('post_edit', {id: post.id}) }}" class="button-like operation post-edit">Edit page</a>
+					<a href="{{ path('admin_set_homepage', {id: post.id}) }}" class="button-like operation set-homepage">Set as homepage</a>
+				{% endif %}
+			</div>
+		{% endif %}
+	{% endblock %}
+</div>

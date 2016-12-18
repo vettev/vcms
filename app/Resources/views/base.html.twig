@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <nav class="main-nav">
+            {% if customMenu is defined and customMenu %}
+                {{ knp_menu_render('main') }}
+            {% else %}
+                <ul>
+                    <li><a href="{{ path('homepage') }}">Homepage</a></li>
+                    <li><a href="{{ path('blog') }}">Blog</a></li>
+                    {% if is_granted('ROLE_REDACT') %}
+                        <li><a href="{{ path('post_new') }}">Add post</a></li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('admin_panel') }}">Admin panel</a></li>
+                    {% endif %}
+                    {% if not is_granted('ROLE_USER') %}
+                    <li><a href="{{ path('user_login') }}">Log in</a></li>
+                    <li><a href="{{ path('user_new') }}">Register</a></li>
+                    {% else %}
+                        <li><a href="{{ path('user_logout') }}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        {% if is_granted('ROLE_USER') %}
+            <div class="user-nav">
+                <a href="{{ path('user_show', {'name': app.user.username}) }}">
+                    {{ app.user.username }}
+                    <img src="{{ app.user.avatar ? asset('uploads/avatars/' ~ app.user.avatar) : asset('uploads/avatars/default.png') }}" alt="user-avatar" width="48" height="48" />
+                </a>
+            </div>
+        {% endif %}
+        </nav>
+        <div class="container-fluid">
+         {% if app.request.hasPreviousSession %}
+                {% for flash_msg in app.session.flashbag.get('notice') %}
+                  <div class="alert alert-dismissible alert-info">{{flash_msg}}</div>
+                {% endfor %}
+            {% endif %}
+
+            {% if app.request.hasPreviousSession %}
+                {% for flash_msg in app.session.flashbag.get('error') %}
+                  <div class="alert alert-dismissible alert-danger">{{flash_msg}}</div>
+                {% endfor %}
+            {% endif %}
+        <h1>{{ pageTitle }}</h1>
+        {% block body %}{% endblock %}
+        {% block footer %}
+            <footer class="main-footer">
+                {# {{ footerContent|filter_black_listed|raw }} #}
+            </footer>
+        {% endblock %}
+        </div>
+        <script src="{{asset('js/jquery.min.js')}}"></script>
+        <script src="{{asset('js/app.js')}}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

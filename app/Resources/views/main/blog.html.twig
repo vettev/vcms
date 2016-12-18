@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<div class="posts center-block">
+		{% if pagination %}
+			{% for post in pagination %}
+	   			{% include 'templates/post.html.twig' %}
+	   		{% endfor %}
+	   	{% else %}
+	   		<p>No posts to display</p>
+	   	{% endif %}
+		<div class="navigation pagination text-center center-block">
+    	{{ knp_pagination_render(pagination) }}
+		</div>
+	</div>
+{% endblock %}

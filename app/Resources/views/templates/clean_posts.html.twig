@@ -1,0 +1,9 @@
+	<div class="posts center-block">
+		{% if posts %}
+			{% for post in posts %}
+	   			{% include 'templates/post.html.twig' %}
+	   		{% endfor %}
+	   	{% else %}
+	   		<p>No posts to display</p>
+	   	{% endif %}
+	</div>

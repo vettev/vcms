@@ -1,0 +1,64 @@
+<div class="post category-{{post.category.name|lower}} {% if post.distinguished %}post-distinguished{% endif %}" id="post-{{post.id}}">
+	{% if post.distinguished %}
+		<div class="ribbon"><span>! ! !</span></div>
+	{% endif %}
+	
+	{% block title %}
+		{% if single is defined %}
+			<h3 class="post-title">{{post.title}}</h3>
+		{% else %}
+			<h3 class="post-title"><a href="{{ path('post_show', {id: post.id}) }}">{{post.title}}</a></h3>
+		{% endif %}
+	{% endblock %}
+
+	{% if post.image %}
+		<img src="{{ asset('uploads/post_imgs/' ~ post.image) }}" alt="Post image" class="img-responsive" />
+	{% endif %}
+
+	{% block content %}
+		<div class="content">
+			{% if not single is defined and post.content|length > 200 %}
+				{{ post.content[:200]|filter_black_listed()|raw|nl2br}}...
+			{% else %}
+				{{ post.content|filter_black_listed()|raw|nl2br }}
+			{% endif %}
+		</div>
+	{% endblock %}
+
+	{% block operations %}
+		<div class="operations">
+			{% if not single is defined %}
+				<a href="{{ path('post_show', {id: post.id}) }}" class="button-like">Read more...</a>
+			{% endif %}
+
+			{% if is_granted('ROLE_ADMIN') or (app.user.id is defined and app.user.id == post.user.id) %}
+				<a href="{{ path('post_edit', {id: post.id}) }}" class="button-like operation post-edit">Edit post</a>
+				<a href="{{ path('post_remove', {id: post.id}) }}" class="operation button-like post-operation post-delete" data-target="post-{{post.id}}">Delete</a>				
+			{% endif %}
+		</div>
+	{% endblock %}
+
+	{% block meta %}
+		<div class="meta">
+			<p class="createdAtDate"><span class="glyphicon glyphicon-calendar"></span> {{post.createdAt|date("d.m.y")}}</p>
+			<p class="createdAtHour"><span class="glyphicon glyphicon-time"></span> {{post.createdAt|date("H:i")}}</p>
+			<p class="createdBy"><a href="{{ path('user_show', {name: post.user.username}) }}"><span class="glyphicon glyphicon-user"></span> {{post.user.username}}</a></p>
+			<p class="category"><a href="{{ path('posts_by_category', {id: post.category.id}) }}"><span class="glyphicon glyphicon-folder-open"></span> {{ post.category.name }}</a></p>
+			<div class="clearfix"></div>
+		</div>
+	{% endblock %}
+</div>
+{% block comments %}
+	{% if single is defined and (is_granted('ROLE_USER') or post.comments.count > 0) and post.category.commentsEnabled %}
+		<div class="comments center-block">
+			<h3 class="text-center">Comments</h3>
+			{% if is_granted('ROLE_USER') %}
+				{{ render(controller('AppBundle:Comment:new', {'postId': post.id})) }}
+			{% endif %}
+
+			{% for comment in post.comments %}
+				{% include 'templates/comment.html.twig' %}
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endblock %}

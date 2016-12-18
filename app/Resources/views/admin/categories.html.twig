@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<table class="table table-stripped">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Comments enabled</th>
+				<th>Operations</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for cat in categories %}
+			<tr>
+				<td>{{cat.name}}</td>
+				<td>{% if not cat.commentsEnabled %}
+						OFF
+					{% else %}
+						ON
+					{% endif %}
+				</td>
+				<td>
+					{% if cat.name != 'Page' %}
+						<a href="{{ path('category_remove', {id: cat.id}) }}">Remove</a>
+					{% else %}
+						Can't remove
+					{% endif %}
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	<div class="alert alert-danger">Warning! If you remove category all posts from category will be lost.</div>
+	<div class="center-block text-center form-center-block">
+		<h3>Add category</h3>
+		{{form_start(formAdd)}}
+		{{form_widget(formAdd)}}
+		{{form_end(formAdd)}}
+	</div>
+{% endblock %}

@@ -1,0 +1,613 @@
+@import "_variables";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+$font-main: 'Roboto', sans-serif;
+
+body
+{
+	background: $body-bg;
+	color: $body-color;
+	overflow-wrap: break-word;
+}
+h1, h2, h3, h4, h5, h6
+{
+	color: $heads-color;
+}
+a
+{
+	color: $a-color;
+	transition: 0.2s color;
+
+	&:hover
+	{
+		color: darken($a-color, 20%);
+	}
+}
+a, a:hover, a:link, a:visited
+{
+	text-decoration: none;
+}
+.main-nav
+{
+	width: 100%;
+	margin-bottom: 3em;
+	border-bottom: 1px solid lighten($body-bg, 5%);
+	background: linear-gradient(darken($main-color, 40%), darken($main-color, 45%));
+	position: relative;
+
+	.user-nav
+	{
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+
+		a
+		{
+			color: white;
+			text-shadow: 1px 1px 1px black;
+			text-transform: uppercase;
+			display: block;
+			position: relative;
+
+			.user-links
+			{
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+			}
+		}
+	}
+
+	& > ul
+	{
+		display: flex;
+		flex-flow: row wrap;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		& > li
+		{
+			margin: auto 1px;
+			display: block;
+
+			& > a
+			{
+				display: block;
+				padding: 1em 2em;
+				color: white;
+				text-transform: uppercase;
+				position: relative;
+				transition: 0.3s all;
+				overflow: hidden;
+				z-index: 1;
+
+				&:hover
+				{
+					color: yellow;
+				}
+
+				&::after, &::before
+				{
+					content: '';
+					position: absolute;
+					top: -80%;
+					left: -10%;
+					border-radius: 100%;
+					transition: 0.35s all;
+					transform: scale3d(0, 0, 0);
+					width: 120%;
+					height: 250%;
+					z-index: -1;
+				}
+				&::after
+				{
+					background: rgba($main-color, 0.15);
+				}
+				&:hover::after
+				{
+					transform: scale3d(1, 1, 1);
+				}
+				&::before
+				{
+					background: rgba($main-color, 0.3);
+					transition-delay: 0.15s;
+					transition-duration: 0.4s;
+				}
+				&:hover::before
+				{
+					transform: scale3d(1, 1, 1);
+				}
+			}
+		}
+		.user-nav a
+		{
+			padding: 0 1em;
+		}
+	}
+}
+.table
+{
+	td
+	{
+		border-top: $border-standard!important;
+	}
+	th
+	{
+		border: none!important;
+	}
+}
+.table-stripped
+{
+	tbody tr:nth-child(odd)
+	{
+		background: rgba(0, 0, 0, 0.15);
+	}
+}
+.form-center-block
+{
+	border: $border-standard;
+	margin-top: 2em;
+	padding: 1em;
+	width: 60%;
+}
+.input-block
+{
+	margin: 1em 0;
+
+	label
+	{
+		color: $heads-color;
+	}
+	/*input, select
+	{
+		background: rgba(0, 0, 0, 0.35);
+		border: none;
+		box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.7), inset -2px -2px 2px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(255, 255, 255, 0.2);
+
+		&:focus
+		{
+			box-shadow: 1px 1px 1px black, inset 1px 1px 0 rgba(255, 255, 255, 0.2);
+		}
+	}*/
+}
+.input-submit button
+{
+	background: none;
+	border: 1px solid $main-color;
+	border-radius: 4px;
+	color: $main-color;
+	padding: 1em 2em;
+	overflow: hidden;
+	position: relative;
+	text-transform: uppercase;
+	transition: 1s all;
+	z-index: 1;
+
+	&::after
+	{
+		background: $main-color;
+		border-radius: 200%;
+		content: '';
+		left: -5%;
+		height: 275%;
+		position: absolute;
+		top: -85%;
+		width: 110%;
+		transform: scale3d(0, 0, 0);
+		transition: 0.35s all;
+		z-index: -1;
+	}
+	
+	&:hover::after
+	{
+		transform: scale3d(1, 1, 1);
+	}
+
+	&:hover
+	{
+		color: white;
+		text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+	}
+}
+.errors
+{
+	list-style: none;
+	padding: 0;
+	background: red;
+	color: white;
+	border-radius: 0 0 4px 4px;
+	margin-top: -1px;
+	z-index: -1;
+}
+.error-block
+{
+	color: red;
+}
+.post
+{
+	border: $border-standard;
+	padding: 0.25em 1em 1em 1em;
+	width: 90%;
+	margin: 1em auto;
+	position: relative;
+
+	.post-title
+	{
+		border-bottom: $border-standard;
+	}
+
+	.content
+	{
+		margin: 1em 0;
+	}
+
+	.meta
+	{
+		p
+		{
+			background: rgba($main-color, 0.35);
+			border: 1px solid $main-color;
+			border-radius: 8px;
+			color: white;
+			float: left;
+			padding: 0.3em 0.75em;
+			margin: 0 0.5em 0 0;
+
+			a
+			{
+				color: white;
+			}
+		}
+	}
+
+	.operations
+	{
+		//float: right;
+		position: absolute;
+		bottom: 1em;
+		right: 1em;
+
+		a
+		{
+			margin-left: 0.5em;
+		}
+	}
+}
+.post-distinguished
+{
+	position: relative;
+
+	.ribbon
+	{
+		position: absolute;
+		right: -5px; top: -5px;
+		z-index: 1;
+		overflow: hidden;
+		width: 75px; height: 75px;
+		text-align: right;
+	}
+	.ribbon span
+	{
+	    font-size: 10px;
+	    font-weight: bold;
+	    color: #FFF;
+	    text-transform: uppercase;
+	    text-align: center;
+	    line-height: 20px;
+	    transform: rotate(45deg);
+	    -webkit-transform: rotate(45deg);
+	    width: 100px;
+	    display: block;
+	    background: $main-color;
+	    background: linear-gradient($main-color 0%, darken($main-color, 25%) 100%);
+	    box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+	    position: absolute;
+	    top: 19px; right: -21px;
+	}
+	.ribbon span::before
+	{
+	    content: "";
+	    position: absolute; left: 0px; top: 100%;
+	    z-index: -1;
+		border-left: 3px solid darken($main-color, 35%);
+		border-right: 3px solid transparent;
+		border-bottom: 3px solid transparent;
+		border-top: 3px solid darken($main-color, 35%);
+	}
+	.ribbon span::after
+	{
+	    content: "";
+	    position: absolute; right: 0px; top: 100%;
+	    z-index: -1;
+		border-left: 3px solid transparent;
+		border-right: 3px solid darken($main-color, 35%);
+		border-bottom: 3px solid transparent;
+		border-top: 3px solid darken($main-color, 35%);
+	}
+}
+.user-avatar
+{
+	display: inline-block;
+	border: 1px solid $main-color;
+	border-radius: 4px;
+	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+.user-block
+{
+	width: 70%;
+	border: $border-standard;
+	padding: 1em;
+
+	.user-name
+	{
+		display: inline-block;
+		width: 70%;
+		margin: 1em;
+	}
+	.createdAt
+	{
+		margin-top: 1em;
+	}
+	.user-about
+	{
+		width: 100%;
+		text-align: center;
+		margin: 2em auto;
+		padding-bottom: 1em;
+
+		p
+		{
+			margin: 0;
+		}
+	}
+	.user-section
+	{
+		border: $border-standard;
+		border-radius: 4px;
+	}
+	.user-info
+	{
+		width: 30%;
+		margin-top: 2em;
+
+		p
+		{
+			margin-left: 1em;
+		} 
+	}
+	.user-section-head		
+	{
+		border-bottom: $border-standard;
+		background: rgba(0, 0, 0, 0.15);
+		margin-top: 0;
+		padding: 0.5em 0;
+		text-transform: uppercase;
+	}
+}
+.comment:nth-child(odd)
+{
+	background: rgba(0, 0, 0, 0.05);
+}
+.comments
+{
+	width: 90%;
+	transition: 0.3s all;
+}
+.comment
+{
+	border: $border-standard;
+	padding: 0.5em 1em;
+	margin: 1em;
+	position: relative;
+	transition: 0.5s all;
+	transform-origin: 0 0;
+
+	.meta
+	{
+		font-size: 0.9em;
+		float: right;
+
+		.date
+		{
+			margin-right: 1em;
+		}
+		.date, .time
+		{
+			display: inline-block;
+			margin-bottom: 0.1em;
+		}
+	}
+
+	.user-name
+	{
+		display: inline-block;
+		margin-left: 0.25em;
+	}
+	.content
+	{
+		margin: 1em 0;
+	}
+	.operations
+	{
+		position: absolute;
+		right: 1em;
+		bottom: 0.5em;
+	}
+}
+.comment, .post, .user-block
+{
+	border-radius: 4px;
+}
+.admin-panel
+{
+	display: flex;
+	flex-flow: row wrap;
+
+	a
+	{
+		display: block;
+		padding: 4em 2em;
+		margin: 1em;
+	}
+}
+.button-like
+{
+	border: 1px solid $sub-color;
+	border-radius: 4px;
+	background: rgba($sub-color, 0.2);
+	color: white;
+	text-shadow: 1px 1px 1px rgba(black, 0.5);
+	display: inline-block;
+	padding: 0.75em 1em;
+	position: relative;
+	transition: 0.35s all;
+	overflow: hidden;
+	z-index: 1;
+
+	&:before
+	{
+	    content: '';
+	    display: block;
+	    position: absolute;
+	    background: rgba(255,255,255,0.5);
+	    width: 60px;
+	    height: 100%;
+	    left: 0;
+	    top: 0;
+	    opacity: .5;
+	    filter: blur(30px);
+	    transform: translateX(-100px)  skewX(-15deg);
+	}
+	&:after
+	{
+	    content: '';
+	    display: block;
+	    position: absolute;
+	    background: rgba(255,255,255,0.2);
+	    width: 30px;
+	    height: 100%;
+	    left: 30px;
+	    top: 0;
+	    opacity: 0;
+	    filter: blur(5px);
+		transform: translateX(-100px) skewX(-15deg);
+	}
+	&:hover
+	{
+	    color: white;
+	    background: rgba($sub-color, 0.35);
+
+	    &:before
+	    {
+	    	transform: translateX(300px)  skewX(-15deg);  
+	    	opacity: 0.6;
+	    	transition: 1s;
+	    }
+	    &:after
+	    {
+	    	transform: translateX(300px) skewX(-15deg);  
+	    	opacity: 1;
+	    	transition: 1s;	
+		}
+	}
+}
+.post-delete, .comment-delete
+{
+	border-color: red;
+	background: rgba(red, 0.2);
+
+	&:hover
+	{
+		background: rgba(red, 0.35);
+	}
+}
+.pagination
+{
+	a, .current
+	{
+		padding: 1em;
+		background: rgba($main-color, 0.35);
+		border: 1px solid $main-color;
+		border-radius: 4px;
+		color: white;
+	}
+	.current
+	{
+		background: rgba($main-color, 0.55);
+	}
+}
+.loader
+{
+	width: 200px;
+	height: 200px;
+	background: rgba(0, 0, 0, 0.75);
+	border-radius: 8px;
+	box-shadow: inset 0 2px 1px rgba(255, 255, 255, 0.35);
+	text-align: center;
+	color: white;
+	position: fixed;
+	top: calc(50% - 100px);
+	left: calc(50% - 100px);
+	z-index: 9999;
+	
+	.circle-outer
+	{
+		width: 120px;
+		height: 120px;
+		border-radius: 200%;
+		margin: 1em auto;
+		box-shadow: 0 1px 2px rgba(255, 255, 255, 0.5), inset 0 2px 5px black;
+		overflow: hidden;
+		z-index: 99;
+		position: relative;
+
+		.circle
+		{
+			width: 100%;
+			height: 100%;
+			background: none;
+			position: relative;
+			border-radius: inherit;
+			z-index: 1;
+			animation: 1s rotate infinite;
+
+			&::after
+			{
+				content: '';
+				position: absolute;
+				top: -5px;
+				left: 0;
+				width: 130px;
+				height: 130px;
+				border-radius: 100%;
+				border: 5px solid rgb(30, 100, 180);
+				filter: blur(2px);
+			}
+		}
+
+	}
+		span
+		{
+			margin: auto;
+			display: block;
+			animation: color 1s infinite;
+		}
+}
+.hiddenByScaleY
+{
+	transform: scaleY(0);
+	height: 0;
+}
+@keyframes rotate
+{
+	0%
+	{
+		transform: rotateZ(0);
+	}
+	100%
+	{
+		transform: rotateZ(360deg);
+	}
+}

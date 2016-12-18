@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<h2 class="text-center">Log in</h2>
+	<div class="center-block form-center-block text-center">
+		{% if error %}
+		    <div class="error-block">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+		{% endif %}
+		{{form_start(form)}}
+		{{form_widget(form)}}
+		{{form_end(form)}}
+	</div>
+{% endblock %}
